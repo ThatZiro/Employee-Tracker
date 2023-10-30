@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <a name="readme-top"></a>
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -246,4 +245,3 @@ Once you've installed the Employee Tracker, follow these steps:
 [license-url]: https://github.com/ThatZiro/Employee-Tracker/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
->>>>>>> ffde2eb8f2c381fe10fb112f7710cfbe89fd9849
