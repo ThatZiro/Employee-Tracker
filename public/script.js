@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const figlet = require('figlet');
 const ConnectToDatabase = require('../db/connection');
 const { get } = require('http');
 
@@ -54,6 +55,11 @@ const { get } = require('http');
             let manager_id = object.employee_manager.split(":")[0].trim();
             [results] = await database.execute('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [object.firstname, object.lastname, role_id, manager_id]);
            break;
+        case 'employee_edit':
+            let employee_id = object.employee.split(":")[0].trim();
+            let employee_role_id = object.employee_role.split(":")[0].trim();
+            [results] = await database.execute('UPDATE employees SET role_id = ? WHERE employee_id = ?', [employee_role_id, employee_id]);
+            break;
       }
 
       return results;
@@ -63,11 +69,13 @@ const { get } = require('http');
     }
   }
 
+
 async function Start(){
     HomeMenu();
 }
 
-function HomeMenu() {
+async function HomeMenu() {
+    await generateTextArt("Main Menu");
     inquirer.prompt([{
         type: 'list',
         name: 'mainmenu',
@@ -177,7 +185,7 @@ async function OpenMenu(menu){
         case "employee_edit":
             questions = [{
                 type: 'list',
-                name: 'employee_manager',
+                name: 'employee',
                 message: 'Please select an employee to edit : ',
                 choices: await GetData("employees"),
             }, {
@@ -211,6 +219,9 @@ async function OpenMenu(menu){
             `);
             break;
         case "employee_edit":
+            console.log(`
+            ${results.employee} has been updated to the role ${results.employee_role}
+            `);
             break;
     }
 
@@ -218,6 +229,20 @@ async function OpenMenu(menu){
     
     setTimeout(HomeMenu, 2000);
 }
+
+
+function generateTextArt(text) {
+    return new Promise((resolve, reject) => {
+      figlet(text, function(err, data) {
+        if (err) {
+          reject(err);
+        } else {
+          console.log(data);
+          resolve();
+        }
+      });
+    });
+  }
 
 //===================================================
 //====================== Running Logic ==============
