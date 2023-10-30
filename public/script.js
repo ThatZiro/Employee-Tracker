@@ -2,13 +2,31 @@ const inquirer = require('inquirer');
 const ConnectToDatabase = require('../db/connection');
 const { get } = require('http');
 
-async function GetDepartments() {
+
+  async function GetData(data) {
     try {
       const database = await ConnectToDatabase();
-      const [results] = await database.execute('SELECT department FROM department');
-      const departmentChoices = results.map((res) => res.department);
 
-      return departmentChoices;
+      let [results] = [];
+      let choice = []
+
+      switch(data){
+        case 'department':
+            [results] = await database.execute('SELECT department FROM department');
+            choice = results.map((res) => `${res.department_id}: ${res.department}`);
+            break;
+        case 'role':
+            [results] = await database.execute('SELECT job_title FROM role');
+            choice = results.map((res) => `${res.role_id}: ${res.job_title}`);
+            break;
+        case 'employees':
+            [results] = await database.execute('SELECT * FROM employees');
+            choice = results.map((res) => `${res.employee_id}: ${res.first_name} ${res.last_name}`);
+           break;
+      }
+
+      return choice;
+      
     } catch (err) {
       console.error('Error executing SQL query: ' + err);
       throw err;
@@ -102,12 +120,42 @@ async function OpenMenu(menu){
                 type: 'list',
                 name: 'role_department',
                 message: 'Please select department for this role: ',
-                choices: await GetDepartments(),
+                choices: await GetData("department"),
             }]
             break;
         case "employee" :
+            questions = [{
+                type: 'input',
+                name: 'firstname',
+                message: 'Please enter the first name : '
+            }, {
+                type: 'input',
+                name: 'lastname',
+                message: 'Please enter the last name : '
+            },  {
+                type: 'list',
+                name: 'employee_role',
+                message: 'Please select a role for this employee : ',
+                choices: await GetData("role"),
+            },  {
+                type: 'list',
+                name: 'employee_manager',
+                message: 'Please select a manager for this employee : ',
+                choices: await GetData("employees"),
+            }]
             break;
         case "employee_edit":
+            questions = [{
+                type: 'list',
+                name: 'employee_manager',
+                message: 'Please select an employee to edit : ',
+                choices: await GetData("employees"),
+            }, {
+                type: 'list',
+                name: 'employee_role',
+                message: 'Please select a new role for this employee : ',
+                choices: await GetData("role"),
+            }, ]
             break;
     }
 
@@ -128,6 +176,9 @@ async function OpenMenu(menu){
             `);
             break;
         case "employee" :
+            console.log(`
+            ${results.first_name} ${results.last_name} has been added as an employee
+            `);
             break;
         case "employee_edit":
             break;
