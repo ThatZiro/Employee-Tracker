@@ -3,20 +3,20 @@ const ConnectToDatabase = require('../db/connection');
 const { get } = require('http');
 
 
-  async function GetData(data) {
+  async function GetData(type) {
     try {
       const database = await ConnectToDatabase();
 
       let [results] = [];
       let choice = []
 
-      switch(data){
+      switch(type){
         case 'department':
-            [results] = await database.execute('SELECT department FROM department');
+            [results] = await database.execute('SELECT * FROM department');
             choice = results.map((res) => `${res.department_id}: ${res.department}`);
             break;
         case 'role':
-            [results] = await database.execute('SELECT job_title FROM role');
+            [results] = await database.execute('SELECT * FROM role');
             choice = results.map((res) => `${res.role_id}: ${res.job_title}`);
             break;
         case 'employees':
@@ -26,9 +26,39 @@ const { get } = require('http');
       }
 
       return choice;
-      
+
     } catch (err) {
       console.error('Error executing SQL query: ' + err);
+      throw err;
+    }
+  }
+
+
+  async function AddData(type, object) {
+    try {
+        console.log(object);
+      const database = await ConnectToDatabase();
+
+      let [results] = [];
+      switch(type){
+        case 'department':
+            [results] = await database.execute('INSERT INTO department (department) VALUES (?)', [object.department_name]);
+            break;
+        case 'role':
+            let department_id = object.role_department.split(":")[0].trim();
+            console.log(department_id);
+            [results] = await database.execute('INSERT INTO role (job_title, department, salary) VALUES (?, ?, ?)', [object.role_name, department_id, object.role_salary]);
+            break;
+        case 'employees':
+            let role_id = object.employee_role.split(":")[0].trim();
+            let manager_id = object.employee_manager.split(":")[0].trim();
+            [results] = await database.execute('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [object.firstname, object.lastname, role_id, manager_id]);
+           break;
+      }
+
+      return results;
+    } catch (err) {
+      console.error('Error inserting data: ' + err);
       throw err;
     }
   }
@@ -113,9 +143,9 @@ async function OpenMenu(menu){
                 name: 'role_name',
                 message: 'Please enter new role name : '
             }, {
-                type: 'input',
+                type: 'number',
                 name: 'role_salary',
-                message: 'Please enter new roles salary (e.g 80k): '
+                message: 'Please enter new roles salary (e.g 80000): '
             },  {
                 type: 'list',
                 name: 'role_department',
@@ -177,14 +207,16 @@ async function OpenMenu(menu){
             break;
         case "employee" :
             console.log(`
-            ${results.first_name} ${results.last_name} has been added as an employee
+            ${results.firstname} ${results.lastname} has been added as an employee
             `);
             break;
         case "employee_edit":
             break;
     }
 
-    HomeMenu();
+    AddData(menu, results);
+    
+    setTimeout(HomeMenu, 2000);
 }
 
 //===================================================
