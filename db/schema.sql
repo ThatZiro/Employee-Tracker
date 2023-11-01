@@ -24,10 +24,3 @@ CREATE TABLE employees (
   manager_id INT
 );
 
-CREATE TABLE classrooms (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  building_name VARCHAR(30) NOT NULL,
-  room_number INT NOT NULL,
-  available BOOLEAN NOT NULL,
-  date_updated DATETIME NOT NULL
-);
