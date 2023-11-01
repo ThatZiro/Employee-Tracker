@@ -28,7 +28,6 @@ Elevate your workforce management with our comprehensive Employee Tracking App. 
 </br>
 </br>
 
-
 ## Table of Contents
 
 <!-- TABLE OF CONTENTS -->
@@ -51,8 +50,6 @@ Elevate your workforce management with our comprehensive Employee Tracking App. 
 ![Inquirer](https://img.shields.io/badge/Inquirer-%230472B6.svg?style=for-the-badge&logo=inquirer&logoColor=%23white)
 ![MySQL](https://img.shields.io/badge/MySQL-%234479A1.svg?style=for-the-badge&logo=mysql&logoColor=%23white)
 
-
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Installation
@@ -62,22 +59,30 @@ Elevate your workforce management with our comprehensive Employee Tracking App. 
 To get started with your Employee Tracker, follow these steps:
 
 1. **Clone the Repository:** Begin by cloning this repository to your local machine using the following command:
+
    ```bash
    git clone REPOSITORY
 
+   ```
+
 2. **Navigate to the Project Directory:** Move into the project's directory:
-    ```bash
-    cd your-repo
+
+   ```bash
+   cd your-repo
+
+   ```
 
 3. **Install Dependencies:** Install the required dependencies with npm:
-    ```bash
-    npm install
+
+   ```bash
+   npm install
+
+   ```
 
 4. **Run Employee Tracker:** Run the Employee Tracker using the following command inside the public folder:
-    ```bash
-    node script.js
+```bash
+node script.js
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 ## Useage
 
@@ -86,13 +91,14 @@ To get started with your Employee Tracker, follow these steps:
 Once you've installed the Employee Tracker, follow these steps:
 
 1. **Run Employee Tracker:** Run the Employee Tracker using the following command inside the public folder:
-    ```bash
-    node script.js
+   ```bash
+   node script.js
+   ```
 2. **Use Menu:** Use Main Menu to navigate and compleate tasks within the console:
 
-
 **Video Demo**
-<a href="https://drive.google.com/file/d/1ZAo9uMM1h_bCANr7sT4JVC2735g7bEP3/view?usp=sharing"> HERE </a>
+<a href="https://drive.google.com/file/d/1lloPgXazpuW07rJPkOPtV01FKZEZz-_Z/view?usp=sharing"> HERE </a>
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Contact
